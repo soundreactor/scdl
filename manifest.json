@@ -1,0 +1,32 @@
+{
+    "manifest_version": 2,
+    "name": "SCDL SoundCloud Downloader",
+    "version": "3.9",
+
+    "description": "SoundCloud Download Helper. Adds ARTWORK, ARTIST, GENRE, TRACKNAME !!",
+    "icons": {
+        "128": "icon128.png",
+        "16": "icon16.png",
+        "48": "icon48.png"
+    },
+
+    "applications": {
+        "gecko": {
+            "id": "scdl@mrvv.net",
+            "strict_min_version": "45.0a1"
+        }
+    },
+
+    "content_scripts": [{
+        "css": ["styler.css"],
+        "js": ["scdler.js" ,"browser-id3-writer.4.0.0.js","FileSaver.min.js"],
+        "matches": ["http://*.soundcloud.com/*", "https://*.soundcloud.com/*", "https://*.mrvv.net/*"],
+        "run_at": "document_end"
+    }],
+
+    "permissions": [
+        "http://*.soundcloud.com/*", "https://*.soundcloud.com/*", "https://*.mrvv.net/*","https://*.sndcdn.com/*","http://*.sndcdn.com/*",
+        "webRequest"
+    ]
+
+}
