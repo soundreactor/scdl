@@ -1,4 +1,4 @@
-//var console = {};
+
 console.log = function() {};
 
 
@@ -20,7 +20,7 @@ console.log("scdl_started");
 
 function setup_scdl() {
   putinloaderelement();
-  getSCDLid();
+  getSCDLid2();
 //putinadolf();
 //put  in .listenNetworkSidebar as last element
 }
@@ -343,36 +343,19 @@ function currentlydl(scdloperator) {
 //return
 }
 
-function getSCDLid() {
 
-  var screlms = document.getElementsByTagName("script");
-  //console.log(screlms);
-  for (i = 0; i < screlms.length; i++) {
-    var ij238u4 = screlms[i].src;
-    if (ij238u4.indexOf("assets/app") !== -1) {
-      console.log(screlms[i]);
 
-      var resolve_this_url = screlms[i].src;
-      console.log(resolve_this_url);
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', resolve_this_url, true);
-      xhr.responseType = 'text';
-      xhr.onload = function() {
-        //console.log(xhr.response);
-        var jf8f089 = xhr.response.match(new RegExp(',client_id:"(.*)",env:"production"'));
-        for (ii = 0; ii < jf8f089.length; ii++) {
-          if (jf8f089[ii].length == 32) {
-            window.scdl_client_id = jf8f089[ii];
-          }
-        //console.log(jf8f089[ii].length);
-        }
-
-      };
-      xhr.send();
-    }
-
-  }
-
+function getSCDLid2() {
+  var resolve_this_url = "https://mrvv.net/scdl/scdlCF.php?client_id=yes";
+  console.log(resolve_this_url);
+  var xhrQQ = new XMLHttpRequest();
+  xhrQQ.open('GET', resolve_this_url, true);
+  xhrQQ.responseType = 'json';
+  xhrQQ.onload = function() {
+    window.scdl_client_id = xhrQQ.response['client_id'];
+    console.log("client id: " + window.scdl_client_id);
+  };
+  xhrQQ.send();
 }
 
 
@@ -395,7 +378,7 @@ function resolveTRACK(passedvarcit) {
 
   console.log("dddddddddddddddd");
   passedvarcit2 = passedvarcit.replace('#', '');
-  var resolve_this_url = 'https://api.soundcloud.com/resolve.json?url=' + passedvarcit2 + '&client_id=' + window.scdl_client_id;
+  var resolve_this_url = "https://mrvv.net/beta/proxy.php?url="+'https://api.soundcloud.com/resolve.json?url=' + passedvarcit2 + '&client_id=' + window.scdl_client_id;
   console.log(resolve_this_url);
   var xhr00 = new XMLHttpRequest();
   xhr00.open('GET', resolve_this_url, true);
@@ -404,7 +387,7 @@ function resolveTRACK(passedvarcit) {
     if (xhr00.response.kind == "track") {
       console.log(xhr00.response.stream_url);
       // window.trackdatajson = xhr00.response;
-      resolveSTREAM(xhr00.response.stream_url, xhr00.response);
+      resolveSTREAM(xhr00.response.id, xhr00.response);
     } else {
       currentlydl(-1);
     }
@@ -420,19 +403,69 @@ function resolveTRACK(passedvarcit) {
 
 function resolveSTREAM(passedvarcit, trackdatajson) {
 
-  var resolve_this_url = passedvarcit + 's' + '?client_id=' + window.scdl_client_id;
+  var resolve_this_url = 'https://api-v2.soundcloud.com/tracks?ids=' + passedvarcit + '&client_id=' + window.scdl_client_id;
+  resolve_this_url = "https://mrvv.net/beta/proxy.php?url="+resolve_this_url;
+
   console.log(resolve_this_url);
   var xhr000 = new XMLHttpRequest();
   xhr000.open('GET', resolve_this_url, true);
   xhr000.responseType = 'json';
   xhr000.onload = function() {
-    console.log(xhr000.response.http_mp3_128_url);
-    tagndl(xhr000.response.http_mp3_128_url, trackdatajson);
+    //console.log(xhr000.responseText);
+    console.log("ok loading");
+    console.log(xhr000.response);
+    window.debug_obj = xhr000.response;
+    console.log("okwriting to window");
+    var transcodings_ = xhr000.response[0].media.transcodings;
+    console.log(transcodings_);
+    var hasfound = false;
+    for (iok = 0; iok < transcodings_.length; iok++) {
+      var ljiillji = transcodings_[iok];
+      console.log(ljiillji);
+      if (ljiillji.format.protocol == "progressive") {
+        hasfound = true;
+        console.log(ljiillji.url);
+        resolveSTREAMpt2(ljiillji.url, trackdatajson);
+      }
+
+    }
+    if (!hasfound) {
+      // var ljiillji = transcodings_[0];
+      //
+      // var lkasdsdff = ljiillji.url.slice(0, -3)+"progressive" ;
+      // console.log("trying hack");
+      // console.log(lkasdsdff);
+      // resolveSTREAMpt2(lkasdsdff, trackdatajson);
+      alert("sorry this track cant be downloaded because it does not have a legacy mp3 stream.");
+      currentlydl(-1);
+      //return debug_requests(resolve_this_url + '///' + "new error");
+    }
+  //console.log(xhr000.response.url);
+  //tagndl(xhr000.response.url, trackdatajson);
   };
   xhr000.onerror = function() {
     debug_requests(resolve_this_url + '///' + xhr.statusText);
   };
   xhr000.send();
+
+}
+
+function resolveSTREAMpt2(passedvarcit, trackdatajson) {
+
+  var resolve_this_url = passedvarcit + '?client_id=' + window.scdl_client_id;
+  resolve_this_url = "https://mrvv.net/beta/proxy.php?url="+resolve_this_url;
+  console.log(resolve_this_url);
+  var xhr0002 = new XMLHttpRequest();
+  xhr0002.open('GET', resolve_this_url, true);
+  xhr0002.responseType = 'json';
+  xhr0002.onload = function() {
+    console.log(xhr0002.response.url);
+    tagndl(xhr0002.response.url, trackdatajson);
+  };
+  xhr0002.onerror = function() {
+    debug_requests(resolve_this_url + '///' + xhr.statusText);
+  };
+  xhr0002.send();
 
 }
 
@@ -452,8 +485,10 @@ function tagndl(uuurrrrr, trackdatajson) {
 
       if (trackdatajson.artwork_url) {
         var ghi2iu7f3 = trackdatajson.artwork_url.replace("large", "t500x500");
-      } else {
+      } else if (trackdatajson.user.avatar_url && !trackdatajson.user.avatar_url.includes("default")) {
         var ghi2iu7f3 = trackdatajson.user.avatar_url.replace("large", "t500x500");
+      } else {
+        var ghi2iu7f3 = "https://mrvv.net/SCDL/default_scdl_cover.jpg";
       }
 
       xhr2 = new XMLHttpRequest();
