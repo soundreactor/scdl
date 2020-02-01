@@ -12,8 +12,8 @@ uses
 https://github.com/egoroof/browser-id3-writer  
 https://github.com/eligrey/FileSaver.js/  
 
-for chrome:
-download to a folder and 
-chrome://extensions/
-enable developer (mode top right)
-load unpacked
+for chrome:      
+download to a folder and     
+chrome://extensions/ .     
+enable developer (mode top right) .      
+load unpacked .      
