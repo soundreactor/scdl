@@ -1,6 +1,8 @@
 
-console.log = function() {};
+//console.log = function() {};
 
+
+//document.querySelector("meta[property='twitter:app:id:iphone']").getAttribute('content').split(':')[2]
 
 window.console = console;
 
@@ -9,7 +11,7 @@ window.scdl_last_url = "";
 window.scdl_counter_1 = 0;
 window.scdl_currentlydl = 0;
 window.scdl_loadingelem;
-window.scdl_adolf = 0;
+window.scdl_adlin = 0;
 window.scdl_lastpage = "";
 
 scdl_elemets_that_have = [];
@@ -17,11 +19,21 @@ scdl_elemets_that_have = [];
 // window.scdl_client_id = getSCDLid();
 console.log("scdl_started");
 
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    console.log(sender.tab ?
+                "from a content script:" + sender.tab.url :
+                "from the extension");
+    if (request.greeting == "hello"){
+      sendResponse({farewell: "goodbye"});
+    }
+
+  });
 
 function setup_scdl() {
   putinloaderelement();
   getSCDLid2();
-//putinadolf();
+//putinadlin();
 //put  in .listenNetworkSidebar as last element
 }
 
@@ -36,15 +48,15 @@ var interval1Id = setInterval(function() {
   updateloaderelement();
   //console.log("UUUUUUUUUUUUUUUUUUUUUUUU");
   if (window.scdl_last_url != document.URL) {
-    window.scdl_adolf = 0;
-    putinadolf();
+    window.scdl_adlin = 0;
+    putinadlin();
   }
   window.scdl_last_url = document.URL;
 }, 1000);
 
 
-function putinadolf() {
-  if (window.scdl_adolf == 0) {
+function putinadlin() {
+  if (window.scdl_adlin == 0) {
     var mnfgtjy = document.getElementsByClassName('listenNetworkSidebar')[0];
     if (typeof mnfgtjy !== "undefined") {
       var ifrm = document.createElement("iframe");
@@ -52,19 +64,19 @@ function putinadolf() {
       //use location.pathname NOTE
       var sdf2 = document.URL.split("/");
       if (sdf2.length = 5) {
-        ifrm.setAttribute("src", "https://mrvv.net/beta/scdl_adolfs/?artist=" + sdf2[3]);
+        ifrm.setAttribute("src", "https://mrvv.net/beta/scdl_adlins/?artist=" + sdf2[3]);
       } else {
-        ifrm.setAttribute("src", "https://mrvv.net/beta/scdl_adolfs/");
+        ifrm.setAttribute("src", "https://mrvv.net/beta/scdl_adlins/");
       }
 
       ifrm.style.width = "100%";
       ifrm.style.height = "500px";
       ifrm.frameBorder = "0";
-      ifrm.id = "scdl_adolf1";
+      ifrm.id = "scdl_adlin1";
       document.body.appendChild(ifrm);
 
       mnfgtjy.appendChild(ifrm);
-      window.scdl_adolf = 1;
+      window.scdl_adlin = 1;
     }
   }
 }
@@ -219,6 +231,7 @@ function sendformscdlfinal(dllinksc) {
     console.log("asdfasdfadhttps://mrvv.net/scdl/scdlSC.php?url=" + dllinksc);
 
     var anHttpRequest = new XMLHttpRequest();
+    //anHttpRequest.setRequestHeader('Authorization', chrome.extension.getBackgroundPage().scdl_oauth);
     anHttpRequest.onreadystatechange = function() {
       if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200) {
         // var data = JSON.parse(anHttpRequest.responseText);
@@ -349,6 +362,7 @@ function getSCDLid2() {
   var resolve_this_url = "https://mrvv.net/scdl/scdlCF.php?client_id=yes";
   console.log(resolve_this_url);
   var xhrQQ = new XMLHttpRequest();
+  //xhrQQ.setRequestHeader('Authorization', chrome.extension.getBackgroundPage().scdl_oauth);
   xhrQQ.open('GET', resolve_this_url, true);
   xhrQQ.responseType = 'json';
   xhrQQ.onload = function() {
@@ -364,6 +378,7 @@ function debug_requests(debug) {
   var resolve_this_url = "https://mrvv.net/scdl/debug.php?debug=" + debug;
   console.log(resolve_this_url);
   var xhrQQ = new XMLHttpRequest();
+  //xhrQQ.setRequestHeader('Authorization', chrome.extension.getBackgroundPage().scdl_oauth);
   xhrQQ.open('GET', resolve_this_url, true);
   xhrQQ.responseType = 'text';
   xhrQQ.onload = function() {
@@ -372,18 +387,46 @@ function debug_requests(debug) {
   xhrQQ.send();
 }
 
+function getJJ(url) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url, true);
+  //xhr.setRequestHeader('Authorization', 'OAuth 2-290976-982940-l7dsKKjHxsQBR6nHG')
+  xhr.withCredentials = true;
+  xhr.responseType = 'text';
+  xhr.onload = function() {
+    console.log(xhr.response);
+  };
+  xhr.send(null);
+}
+
+
+
 
 // window.trackdatajson = null;
 function resolveTRACK(passedvarcit) {
 
+  console.log("vvvvvvvvvvvvvvvvvv");
+  getJJ('https://api-v2.soundcloud.com/tracks/151663726?client_id=l38jm8md5HpZb10L3ViMpqGy14tIOkaM');
+
   console.log("dddddddddddddddd");
   passedvarcit2 = passedvarcit.replace('#', '');
-  var resolve_this_url = "https://mrvv.net/beta/proxy.php?url="+'https://api.soundcloud.com/resolve.json?url=' + passedvarcit2 + '&client_id=' + window.scdl_client_id;
+  var kljisgsdf = document.querySelector("meta[property='twitter:app:url:ipad']").getAttribute('content').split(':')[2];
+  //var kljisgsdf = document.querySelector("meta[property='twitter:app:id:iphone']").getAttribute('content');
+  if(kljisgsdf.length<5){
+    alert('could not locate track id');
+
+    return;
+  }
+  var resolve_this_url = ""+'https://api-v2.soundcloud.com/tracks/'+kljisgsdf+'?client_id=' + window.scdl_client_id;
+  //https://api-v2.soundcloud.com/tracks/99417762?client_id=l38jm8md5HpZb10L3ViMpqGy14tIOkaM
   console.log(resolve_this_url);
   var xhr00 = new XMLHttpRequest();
   xhr00.open('GET', resolve_this_url, true);
+  xhr00.withCredentials = true;
+  //xhr00.setRequestHeader('Authorization', chrome.extension.getBackgroundPage().scdl_oauth);
   xhr00.responseType = 'json';
   xhr00.onload = function() {
+    console.log(xhr00.response);
     if (xhr00.response.kind == "track") {
       console.log(xhr00.response.stream_url);
       // window.trackdatajson = xhr00.response;
@@ -396,18 +439,18 @@ function resolveTRACK(passedvarcit) {
   xhr00.onerror = function() {
     debug_requests(resolve_this_url + '///' + xhr.statusText);
   };
-  xhr00.send();
-
+  xhr00.send(null);
 
 }
 
 function resolveSTREAM(passedvarcit, trackdatajson) {
 
   var resolve_this_url = 'https://api-v2.soundcloud.com/tracks?ids=' + passedvarcit + '&client_id=' + window.scdl_client_id;
-  resolve_this_url = "https://mrvv.net/beta/proxy.php?url="+resolve_this_url;
+  resolve_this_url = ""+resolve_this_url;
 
   console.log(resolve_this_url);
   var xhr000 = new XMLHttpRequest();
+  //xhr000.setRequestHeader('Authorization', chrome.extension.getBackgroundPage().scdl_oauth);
   xhr000.open('GET', resolve_this_url, true);
   xhr000.responseType = 'json';
   xhr000.onload = function() {
@@ -453,9 +496,10 @@ function resolveSTREAM(passedvarcit, trackdatajson) {
 function resolveSTREAMpt2(passedvarcit, trackdatajson) {
 
   var resolve_this_url = passedvarcit + '?client_id=' + window.scdl_client_id;
-  resolve_this_url = "https://mrvv.net/beta/proxy.php?url="+resolve_this_url;
+  resolve_this_url = ""+resolve_this_url;
   console.log(resolve_this_url);
   var xhr0002 = new XMLHttpRequest();
+  //xhr0002.setRequestHeader('Authorization', chrome.extension.getBackgroundPage().scdl_oauth);
   xhr0002.open('GET', resolve_this_url, true);
   xhr0002.responseType = 'json';
   xhr0002.onload = function() {
@@ -473,6 +517,7 @@ function tagndl(uuurrrrr, trackdatajson) {
   // var trackdatajson = null;
 
   xhr = new XMLHttpRequest();
+  //xhr.setRequestHeader('Authorization', chrome.extension.getBackgroundPage().scdl_oauth);
   xhr.open('GET', uuurrrrr, true);
   xhr.responseType = 'arraybuffer';
   xhr.onerror = function() {
@@ -492,7 +537,7 @@ function tagndl(uuurrrrr, trackdatajson) {
       }
 
       xhr2 = new XMLHttpRequest();
-
+      //xhr2.setRequestHeader('Authorization', chrome.extension.getBackgroundPage().scdl_oauth);
       xhr2.open('GET', ghi2iu7f3, true);
       xhr2.responseType = 'arraybuffer';
       xhr2.onerror = function() {
