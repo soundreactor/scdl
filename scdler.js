@@ -1,5 +1,5 @@
 
-//console.log = function() {};
+console.log = function() {};
 
 
 //document.querySelector("meta[property='twitter:app:id:iphone']").getAttribute('content').split(':')[2]
@@ -332,6 +332,7 @@ function getAllT() {
       doner.push(lilili);
       url4scdl = lilili;
       currentlydl(1);
+      //console.log(url4scdl);
       sendformscdlfinal(url4scdl);
       resolveTRACK(url4scdl)
     }
@@ -387,37 +388,32 @@ function debug_requests(debug) {
   xhrQQ.send();
 }
 
-function getJJ(url) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', url, true);
-  //xhr.setRequestHeader('Authorization', 'OAuth 2-290976-982940-l7dsKKjHxsQBR6nHG')
-  xhr.withCredentials = true;
-  xhr.responseType = 'text';
-  xhr.onload = function() {
-    console.log(xhr.response);
-  };
-  xhr.send(null);
-}
-
 
 
 
 // window.trackdatajson = null;
 function resolveTRACK(passedvarcit) {
 
+
+
   console.log("vvvvvvvvvvvvvvvvvv");
-  getJJ('https://api-v2.soundcloud.com/tracks/151663726?client_id=l38jm8md5HpZb10L3ViMpqGy14tIOkaM');
+  //getJJ('https://api-v2.soundcloud.com/tracks/151663726?client_id=l38jm8md5HpZb10L3ViMpqGy14tIOkaM');
 
   console.log("dddddddddddddddd");
   passedvarcit2 = passedvarcit.replace('#', '');
-  var kljisgsdf = document.querySelector("meta[property='twitter:app:url:ipad']").getAttribute('content').split(':')[2];
-  //var kljisgsdf = document.querySelector("meta[property='twitter:app:id:iphone']").getAttribute('content');
-  if(kljisgsdf.length<5){
-    alert('could not locate track id');
 
-    return;
-  }
-  var resolve_this_url = ""+'https://api-v2.soundcloud.com/tracks/'+kljisgsdf+'?client_id=' + window.scdl_client_id;
+  kjlkajjsldijlasjdf = passedvarcit.split('?')[0];
+  console.log(kjlkajjsldijlasjdf);
+
+  //var kljisgsdf = document.querySelector("meta[property='twitter:app:url:ipad']").getAttribute('content').split(':')[2];
+  //var kljisgsdf = document.querySelector("meta[property='twitter:app:id:iphone']").getAttribute('content');
+  // if(kljisgsdf.length<5){
+  //   alert('could not locate track id');
+  //
+  //   return;
+  // }
+  //var resolve_this_url = ""+'https://api-v2.soundcloud.com/tracks/'+kljisgsdf+'?client_id=' + window.scdl_client_id;
+  var resolve_this_url = "https://api-v2.soundcloud.com/resolve?url="+kjlkajjsldijlasjdf+"&client_id=" + window.scdl_client_id;
   //https://api-v2.soundcloud.com/tracks/99417762?client_id=l38jm8md5HpZb10L3ViMpqGy14tIOkaM
   console.log(resolve_this_url);
   var xhr00 = new XMLHttpRequest();
@@ -446,6 +442,7 @@ function resolveTRACK(passedvarcit) {
 function resolveSTREAM(passedvarcit, trackdatajson) {
 
   var resolve_this_url = 'https://api-v2.soundcloud.com/tracks?ids=' + passedvarcit + '&client_id=' + window.scdl_client_id;
+
   resolve_this_url = ""+resolve_this_url;
 
   console.log(resolve_this_url);
