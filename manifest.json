@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "SCDL SoundCloud Downloader",
-  "version": "5.2",
+  "version": "5.3",
 
   "description": "SoundCloud Download Helper. Adds ARTWORK, ARTIST, GENRE, TRACKNAME !!",
   "icons": {
@@ -20,7 +20,7 @@
   "content_scripts": [{
     "css": ["styler.css"],
     "js": ["scdler.js", "browser-id3-writer.4.0.0.js", "FileSaver.min.js"],
-    "matches": ["http://*.soundcloud.com/*", "https://*.soundcloud.com/*", "https://*.mrvv.net/*"],
+    "matches": ["http://*.soundcloud.com/*", "https://*.soundcloud.com/*"],
     "run_at": "document_end"
   }],
 
