@@ -418,7 +418,7 @@ function resolveTRACK(passedvarcit) {
   console.log(resolve_this_url);
   var xhr00 = new XMLHttpRequest();
   xhr00.open('GET', resolve_this_url, true);
-  xhr00.withCredentials = true;
+  //xhr00.withCredentials = true;
   //xhr00.setRequestHeader('Authorization', chrome.extension.getBackgroundPage().scdl_oauth);
   xhr00.responseType = 'json';
   xhr00.onload = function() {
