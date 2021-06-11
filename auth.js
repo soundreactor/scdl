@@ -70,6 +70,10 @@ chrome.extension.getBackgroundPage().startAuthHijack = function() {
         if (details.responseHeaders[i].name == "Access-Control-Allow-Origin") {
           details.responseHeaders.splice(i, 1);
         }
+        if (details.responseHeaders[i].name == "access-control-allow-origin") {
+          details.responseHeaders.splice(i, 1);
+        }
+
       }
 
       //if(!hasAUTH){
