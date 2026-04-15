@@ -22,19 +22,3 @@
     /*width:77px;
 	text-align:center;*/
 }
-
-.scdl_btn_start:before {
-    left: 5px;
-    content: "";
-    display: block;
-    position: absolute;
-    background-repeat: no-repeat;
-    background-position: center center;
-    width: 20px;
-    height: 20px;
-    top: 0;
-    bottom: 0;
-    margin: auto 0;
-    background-size: 16px 16px;
-    background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+UmVjdGFuZ2xlIDMxPC90aXRsZT48ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz48cGF0aCBkPSJNMyAxMXYyaDEwdi0yaC0xMHptMC03aDEwbC01IDYtNS02em0zLTJ2Mmg0di0yaC00eiIgZmlsbD0iIzIyMiIgZmlsbC1ydWxlPSJldmVub2RkIi8+PC9zdmc+);
-}

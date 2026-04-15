@@ -84,16 +84,19 @@ function putinadlin() {
 
 function insert_button() {
 
-  //var scdl_html_button = '<a class="scdl_btn_start sc-button sc-button-medium sc-button-responsive" tabindex="0" title="Download">&nbsp;&nbsp;&nbsp;&nbsp;SCDL</a>';
-
-
-  var a_scdl = document.createElement('a');
-  var linkText = document.createTextNode(" . . SCDL");
-  a_scdl.appendChild(linkText);
+  var a_scdl = document.createElement('button');
   a_scdl.title = "Download";
-  //a_scdl.href = "#";
-  a_scdl.className = "scdl_btn_start sc-button sc-button-small sc-button-responsive";
+  a_scdl.setAttribute('aria-label', 'Download this track');
+  a_scdl.className = "scdl_btn_start sc-button-download sc-button-secondary sc-button sc-button-medium sc-button-responsive";
 
+  var iconDiv = document.createElement('div');
+  iconDiv.innerHTML = '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 15A7 7 0 108 1a7 7 0 000 14zm3.47-7.53l1.06 1.06L8 13.06 3.47 8.53l1.06-1.06 2.72 2.72V3h1.5v7.19l2.72-2.72z" fill="currentColor"></path></svg>';
+  a_scdl.appendChild(iconDiv);
+
+  var labelSpan = document.createElement('span');
+  labelSpan.className = "sc-button-label";
+  labelSpan.textContent = "SCDL";
+  a_scdl.appendChild(labelSpan);
 
   var elems = document.getElementsByTagName('*'),
     i;
@@ -124,7 +127,13 @@ function insert_button() {
               clone_a.addEventListener("click", function() {
                 actual_listener_event(this);
               }, true);
-              elems[i].appendChild(clone_a);
+              if (elems[i].className.indexOf("sc-button-group-small") > -1) {
+                clone_a.className = "scdl_btn_start sc-button-download sc-button-secondary sc-button sc-button-small sc-button-icon sc-button-responsive";
+                clone_a.querySelector('.sc-button-label')?.classList.add('sc-visuallyhidden');
+                elems[i].insertBefore(clone_a, elems[i].lastElementChild);
+              }else{
+                elems[i].appendChild(clone_a);
+              }
               yts = kiddies.length;
               scdl_elemets_that_have.push(elems[i].parentNode);
             } else {
